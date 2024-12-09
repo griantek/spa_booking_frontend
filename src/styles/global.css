@@ -1,0 +1,139 @@
+body {
+  font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
+h1, h2, h3 {
+  color: #444;
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+/* Ensure the container is centered and styled for mobile */
+.form-container {
+  width: 100%;
+  max-width: 500px;
+  margin: auto;
+  padding: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+.form-field {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.form-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #36d7b7;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.form-button:hover {
+  background-color: #2bb197;
+}
+
+.error-text {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+
+input, textarea, select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* Button styling */
+
+
+/* Mobile-friendly adjustments */
+@media (max-width: 480px) {
+  .form-button {
+    padding: 12px;
+    font-size: 18px;
+  }
+
+  .form-field {
+    margin-bottom: 12px; /* Adjust spacing for smaller screens */
+  }
+}
+
+@media (max-width: 768px) {
+  .form-container {
+    padding: 16px;
+  }
+
+  .form-image {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+}
+
+.form-image {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;  /* Curved border */
+  margin-bottom: 20px;   /* Space between the image and form fields */
+  max-width: 500px;      /* Adjust the size as per your requirement */
+}
+.success-message {
+  margin: 20px 0;
+  padding: 10px;
+  background: #d4edda; /* Green success message */
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  font-size: 16px;
+  margin: 10px 0;
+}
+
