@@ -24,7 +24,7 @@ const Home = () => {
     setError(""); // Clear any existing error
 
     try {
-      const response = await axios.get(`https://spa-booking-backend.onrender.com/check-phone/${phone}`);
+      const response = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/check-phone/${phone}`);
       if (response.data.exists) {
         // Phone number exists, navigate to Modify page and pass the phone number
         toast.success("Phone number found! Redirecting to Modify page...", {
