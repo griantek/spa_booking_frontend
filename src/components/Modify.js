@@ -89,6 +89,7 @@ function Modify() {
   
       navigate("/confirmation", {
         state: {
+          phone:formData.phone,
           message: "Your appointment has been updated successfully!",
           note: "Feel free to explore or book another appointment.",
         },
@@ -108,7 +109,7 @@ function Modify() {
   
       navigate("/confirmation", {
         state: {
-          phone:formData.phone,
+          
           message: "Your appointment has been cancelled successfully!",
           note: "You can book another appointment if needed.",
         },
