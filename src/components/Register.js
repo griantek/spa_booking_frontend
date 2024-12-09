@@ -56,6 +56,7 @@ const Register = () => {
 
       navigate("/confirmation", {
         state: {
+          phone:formData.phone,
           message: "Your Appointment is Confirmed!",
           note: "Thank you for booking your appointment with us. We look forward to serving you!",
         },

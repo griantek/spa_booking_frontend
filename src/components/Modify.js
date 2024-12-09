@@ -108,6 +108,7 @@ function Modify() {
   
       navigate("/confirmation", {
         state: {
+          phone:formData.phone,
           message: "Your appointment has been cancelled successfully!",
           note: "You can book another appointment if needed.",
         },

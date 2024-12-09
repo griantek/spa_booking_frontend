@@ -137,3 +137,40 @@ input, textarea, select {
   margin: 10px 0;
 }
 
+.appointment-details {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.appointment-details h2 {
+  margin-bottom: 10px;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.qr-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.qr-container h2 {
+  margin-bottom: 10px;
+}
+
+.qr-container canvas {
+  margin: 0 auto;
+}
+
+.confirmation-text {
+  text-align: center; /* Centers the text horizontally */
+  margin: 20px 0;     /* Adds vertical spacing */
+  font-size: 18px;    /* Adjusts the font size for readability */
+  color: #333;        /* Sets the text color */
+  line-height: 1.6;   /* Adds line height for better spacing */
+}
