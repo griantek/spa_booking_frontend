@@ -17,7 +17,7 @@ const ConfirmationPage = () => {
     if (phone) {
       const fetchDetails = async () => {
         try {
-          const response = await fetch(`https://spa-booking-backend.onrender.com/appointment/${phone}`);
+          const response = await fetch(`https://spa-booking-backend-kcqy.onrender.com/appointment/${phone}`);
           if (response.ok) {
             const data = await response.json();
             setAppointmentDetails(data);
