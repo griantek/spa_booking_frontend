@@ -59,28 +59,50 @@ function Modify() {
   //useEffect for if Modification reqeust from whatsapp bot
   
   useEffect(() => {
-    if (token) {
-      const fetchAppointmentData = async () => {
-        try {
-          const response = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/validate-token?token=${token}`);
-          if (response.status === 200) {
-            const { phone, name, service, time, date, notes } = response.data;
-            setFormData({
-              phone,
-              name: name || "",
-              service: service || "",
-              time: time || "",
-              date: date || "",
-              notes: notes || "",
-            });
-          }
-        } catch (error) {
-          console.error("Error verifying token or fetching appointment data:", error.response?.data || error.message);
+    const fetchAppointmentDetails = async (phone) => {
+      try {
+        const response = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/appointment/${phone}`);
+        if (response.status === 200) {
+          const { name, service, time, date, notes } = response.data;
+          setFormData((prevData) => ({
+            ...prevData,
+            name: name || "",
+            service: service || "",
+            time: time || "",
+            date: date || "",
+            notes: notes || "",
+          }));
+        } else {
+          console.error("Unexpected response status:", response.status);
         }
-      };
-      fetchAppointmentData();
+      } catch (error) {
+        console.error("Error fetching appointment data:", error.response?.data || error.message);
+      }
+    };
+  
+    const verifyTokenAndFetchData = async () => {
+      try {
+        const response = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/validate-token?token=${token}`);
+        if (response.status === 200) {
+          const { phone } = response.data;
+          if (phone) {
+            setFormData((prevData) => ({
+              ...prevData,
+              phone,
+            }));
+            await fetchAppointmentDetails(phone); // Fetch appointment details
+          }
+        }
+      } catch (error) {
+        console.error("Error verifying token or fetching appointment data:", error.response?.data || error.message);
+      }
+    };
+  
+    if (token) {
+      verifyTokenAndFetchData();
     }
   }, [token]);
+  
 
   const validateFields = () => {
     const newErrors = {};
