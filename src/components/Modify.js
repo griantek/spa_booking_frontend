@@ -59,7 +59,7 @@ function Modify() {
     if (phoneParam) {
       const fetchAppointmentData = async () => {
         try {
-          const response = await axios.get(`http://localhost:3000/appointment/${phoneParam}`);
+          const response = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/appointment/${phoneParam}`);
           if (response.status === 200) {
             setFormData((prevData) => ({
               ...prevData,
