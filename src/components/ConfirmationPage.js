@@ -40,6 +40,15 @@ const ConfirmationPage = () => {
     window.print();
   };
 
+  const convertTo12HourFormat = (time) => {
+    const [hours, minutes] = time.split(":");
+    const period = hours >= 12 ? "PM" : "AM";
+    const adjustedHours = hours % 12 || 12; // Convert 0 to 12 for midnight
+    return `${adjustedHours}:${minutes} ${period}`;
+  };
+
+
+
   return (
     <div className="form-container">
       <img
@@ -57,7 +66,7 @@ const ConfirmationPage = () => {
           <p><strong>Phone:</strong> {appointmentDetails.phone}</p>
           <p><strong>Service:</strong> {appointmentDetails.service}</p>
           <p><strong>Date:</strong> {appointmentDetails.date}</p>
-          <p><strong>Time:</strong> {appointmentDetails.time}</p>
+          <p><strong>Time:</strong> {convertTo12HourFormat(appointmentDetails.time)}</p>
           {appointmentDetails.notes && (
             <p><strong>Notes:</strong> {appointmentDetails.notes}</p>
           )}
