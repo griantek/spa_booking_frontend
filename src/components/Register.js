@@ -8,7 +8,7 @@ const Register = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const phoneParam = searchParams.get("phone");
+  const token = searchParams.get("token");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -20,6 +20,7 @@ const Register = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (location.state?.phone) {
@@ -29,6 +30,25 @@ const Register = () => {
       }));
     }
   }, [location]);
+
+  useEffect(() => {
+    const validateToken = async () => {
+      try {
+        if (token) {
+          const response = await axios.get(`https://spa-booking-backend.onrender.com/validate-token?token=${token}`);
+          setFormData((prevData) => ({ ...prevData, phone: response.data.phone }));
+        }
+      } catch (error) {
+        console.error("Error validating token:", error);
+        setErrors({ submit: "Invalid or expired token." });
+      } finally {
+        setLoading(false);
+      }
+    };
+    validateToken();
+  }, [token]);
+
+  if (loading) return <div>Loading...</div>;
 
   const validateFields = () => {
     const newErrors = {};
