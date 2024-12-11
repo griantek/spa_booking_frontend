@@ -6,10 +6,12 @@ import "../styles/global.css";
 const Register = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const phoneParam = searchParams.get("phone");
 
   const [formData, setFormData] = useState({
     name: "",
-    phone: "",
+    phone: phoneParam || "",
     service: "",
     time: "",
     date: "",
