@@ -8,11 +8,11 @@ function Modify() {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const phoneParam = searchParams.get("phone");
+  const token = searchParams.get("token");
 
   const [formData, setFormData] = useState({
     name: '',
-    phone: phoneParam || "", // Prefill phone from query parameter
+    phone:"",
     service: '',
     time: '',
     date: '',
@@ -21,6 +21,7 @@ function Modify() {
 
   const [message, setMessage] = useState(""); // State for success messages
   const [errors, setErrors] = useState({}); // State for field-specific errors
+  const [loading, setLoading] = useState(true);
   //useEffect for if Modify directly from Web Aplication
   useEffect(() => {
     const phone = location.state?.phone;
@@ -56,28 +57,30 @@ function Modify() {
     }
   }, [location.state?.phone]);
   //useEffect for if Modification reqeust from whatsapp bot
+  
   useEffect(() => {
-    if (phoneParam) {
+    if (token) {
       const fetchAppointmentData = async () => {
         try {
-          const response = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/appointment/${phoneParam}`);
+          const response = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/validate-token?token=${token}`);
           if (response.status === 200) {
-            setFormData((prevData) => ({
-              ...prevData,
-              name: response.data.name || "",
-              service: response.data.service || "",
-              time: response.data.time || "",
-              date: response.data.date || "",
-              notes: response.data.notes || "",
-            }));
+            const { phone, name, service, time, date, notes } = response.data;
+            setFormData({
+              phone,
+              name: name || "",
+              service: service || "",
+              time: time || "",
+              date: date || "",
+              notes: notes || "",
+            });
           }
         } catch (error) {
-          console.error("Error fetching appointment data:", error.response?.data || error.message);
+          console.error("Error verifying token or fetching appointment data:", error.response?.data || error.message);
         }
       };
       fetchAppointmentData();
     }
-  }, [phoneParam]);
+  }, [token]);
 
   const validateFields = () => {
     const newErrors = {};
