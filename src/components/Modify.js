@@ -2,14 +2,17 @@ import React, { useState, useEffect } from "react";
 import './Modify.css';
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 function Modify() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const phoneParam = searchParams.get("phone");
 
   const [formData, setFormData] = useState({
     name: '',
-    phone: '',
+    phone: phoneParam || "", // Prefill phone from query parameter
     service: '',
     time: '',
     date: '',
@@ -19,19 +22,44 @@ function Modify() {
   const [message, setMessage] = useState(""); // State for success messages
   const [errors, setErrors] = useState({}); // State for field-specific errors
 
+  // useEffect(() => {
+  //   const phone = location.state?.phone;
+
+  //   if (phone) {
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       phone: phone,
+  //     }));
+
+  //     const fetchAppointmentData = async () => {
+  //       try {
+  //         const response = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/appointment/${phone}`);
+
+  //         if (response.status === 200) {
+  //           setFormData((prevData) => ({
+  //             ...prevData,
+  //             name: response.data.name || "",
+  //             service: response.data.service || "",
+  //             time: response.data.time || "",
+  //             date: response.data.date || "",
+  //             notes: response.data.notes || "",
+  //           }));
+  //         } else {
+  //           console.error("Unexpected response status:", response.status);
+  //         }
+  //       } catch (error) {
+  //         console.error("Error fetching appointment data:", error.response?.data || error.message);
+  //       }
+  //     };
+
+  //     fetchAppointmentData();
+  //   }
+  // }, [location.state?.phone]);
   useEffect(() => {
-    const phone = location.state?.phone;
-
-    if (phone) {
-      setFormData((prevData) => ({
-        ...prevData,
-        phone: phone,
-      }));
-
+    if (phoneParam) {
       const fetchAppointmentData = async () => {
         try {
-          const response = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/appointment/${phone}`);
-
+          const response = await axios.get(`http://localhost:3000/appointment/${phoneParam}`);
           if (response.status === 200) {
             setFormData((prevData) => ({
               ...prevData,
@@ -41,18 +69,14 @@ function Modify() {
               date: response.data.date || "",
               notes: response.data.notes || "",
             }));
-          } else {
-            console.error("Unexpected response status:", response.status);
           }
         } catch (error) {
           console.error("Error fetching appointment data:", error.response?.data || error.message);
         }
       };
-
       fetchAppointmentData();
     }
-  }, [location.state?.phone]);
-
+  }, [phoneParam]);
 
   const validateFields = () => {
     const newErrors = {};
