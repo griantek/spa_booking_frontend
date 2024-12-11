@@ -35,7 +35,7 @@ const Register = () => {
     const validateToken = async () => {
       try {
         if (token) {
-          const response = await axios.get(`https://spa-booking-backend.onrender.com/validate-token?token=${token}`);
+          const response = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/validate-token?token=${token}`);
           setFormData((prevData) => ({ ...prevData, phone: response.data.phone }));
         }
       } catch (error) {
