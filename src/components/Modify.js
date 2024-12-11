@@ -21,7 +21,7 @@ function Modify() {
 
   const [message, setMessage] = useState(""); // State for success messages
   const [errors, setErrors] = useState({}); // State for field-specific errors
-
+  //useEffect for if Modify directly from Web Aplication
   useEffect(() => {
     const phone = location.state?.phone;
 
@@ -55,7 +55,7 @@ function Modify() {
       fetchAppointmentData();
     }
   }, [location.state?.phone]);
-  
+  //useEffect for if Modification reqeust from whatsapp bot
   useEffect(() => {
     if (phoneParam) {
       const fetchAppointmentData = async () => {
