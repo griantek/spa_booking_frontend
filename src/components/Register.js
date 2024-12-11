@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/global.css";
+import { useSearchParams } from "react-router-dom";
 
 const Register = () => {
   const location = useLocation();
