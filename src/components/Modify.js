@@ -22,39 +22,40 @@ function Modify() {
   const [message, setMessage] = useState(""); // State for success messages
   const [errors, setErrors] = useState({}); // State for field-specific errors
 
-  // useEffect(() => {
-  //   const phone = location.state?.phone;
+  useEffect(() => {
+    const phone = location.state?.phone;
 
-  //   if (phone) {
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       phone: phone,
-  //     }));
+    if (phone) {
+      setFormData((prevData) => ({
+        ...prevData,
+        phone: phone,
+      }));
 
-  //     const fetchAppointmentData = async () => {
-  //       try {
-  //         const response = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/appointment/${phone}`);
+      const fetchAppointmentData = async () => {
+        try {
+          const response = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/appointment/${phone}`);
 
-  //         if (response.status === 200) {
-  //           setFormData((prevData) => ({
-  //             ...prevData,
-  //             name: response.data.name || "",
-  //             service: response.data.service || "",
-  //             time: response.data.time || "",
-  //             date: response.data.date || "",
-  //             notes: response.data.notes || "",
-  //           }));
-  //         } else {
-  //           console.error("Unexpected response status:", response.status);
-  //         }
-  //       } catch (error) {
-  //         console.error("Error fetching appointment data:", error.response?.data || error.message);
-  //       }
-  //     };
+          if (response.status === 200) {
+            setFormData((prevData) => ({
+              ...prevData,
+              name: response.data.name || "",
+              service: response.data.service || "",
+              time: response.data.time || "",
+              date: response.data.date || "",
+              notes: response.data.notes || "",
+            }));
+          } else {
+            console.error("Unexpected response status:", response.status);
+          }
+        } catch (error) {
+          console.error("Error fetching appointment data:", error.response?.data || error.message);
+        }
+      };
 
-  //     fetchAppointmentData();
-  //   }
-  // }, [location.state?.phone]);
+      fetchAppointmentData();
+    }
+  }, [location.state?.phone]);
+  
   useEffect(() => {
     if (phoneParam) {
       const fetchAppointmentData = async () => {
