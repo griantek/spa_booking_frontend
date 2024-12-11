@@ -12,7 +12,7 @@ const Register = () => {
 
   const [formData, setFormData] = useState({
     name: "",
-    phone: phoneParam || "",
+    phone:"",
     service: "",
     time: "",
     date: "",
