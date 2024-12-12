@@ -35,7 +35,7 @@ const Register = () => {
     const validateToken = async () => {
       try {
         if (token) {
-          const response = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/validate-token?token=${token}`);
+          const response = await axios.get(`http://34.171.50.142:3000/validate-token?token=${token}`);
           setFormData((prevData) => ({ ...prevData, phone: response.data.phone }));
         }
       } catch (error) {
@@ -75,7 +75,7 @@ const Register = () => {
     }
 
     try {
-      await axios.post("https://spa-booking-backend-kcqy.onrender.com/submit-booking", formData);
+      await axios.post("http://34.171.50.142:3000/submit-booking", formData);
 
       navigate("/confirmation", {
         state: {
