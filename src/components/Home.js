@@ -18,7 +18,7 @@ const Home = () => {
       return;
     }
     if (!/^\d{12}$/.test(phone)) {
-      setError("Please enter a valid 10-digit phone number with country code.");
+      setError("Please enter a valid 10-digit phone number");
       return;
     }
 
@@ -53,6 +53,7 @@ const Home = () => {
     const value = e.target.value;
     // Allow only numeric values
     if (/^\d*$/.test(value)) {
+      value="91"+value
       setPhone(value);
       setError(""); // Clear error when user starts typing
     }
