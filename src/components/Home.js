@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './Home.css';
+import { API_URLS, DEFAULT_VALUES } from "../utils/constants";
 
 const Home = () => {
   const [phone, setPhone] = useState("");
@@ -24,7 +25,7 @@ const Home = () => {
     setError(""); // Clear any existing error
 
     try {
-      const response = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/check-phone/${phone}`);
+      const response = await axios.get(`${API_URLS.BACKEND_URL}/check-phone/${phone}`);
       if (response.data.exists) {
         // Phone number exists, navigate to Modify page and pass the phone number
         toast.success("Phone number found! Redirecting to Modify page...", {
@@ -60,7 +61,7 @@ const Home = () => {
   return (
     <div className="form-container">
       <img
-        src="https://www.dermaessentia.com/cdn/shop/articles/Hair-Spa-for-Men.jpg?v=1694420768"
+        src={DEFAULT_VALUES.IMAGE_URL}
         alt="Spa"
         className="form-image"
       />

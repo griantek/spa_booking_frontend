@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/global.css";
 import { useSearchParams } from "react-router-dom";
-
+import { API_URLS, DEFAULT_VALUES } from "../utils/constants";
 const Register = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -35,7 +35,7 @@ const Register = () => {
     const validateToken = async () => {
       try {
         if (token) {
-          const response = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/validate-token?token=${token}`);
+          const response = await axios.get(`${API_URLS.BACKEND_URL}/validate-token?token=${token}`);
           setFormData((prevData) => ({ ...prevData, phone: response.data.phone }));
         }
       } catch (error) {
@@ -75,7 +75,7 @@ const Register = () => {
     }
 
     try {
-      await axios.post("https://spa-booking-backend-kcqy.onrender.com/submit-booking", formData);
+      await axios.post(`${API_URLS.BACKEND_URL}/submit-booking`, formData);
 
       navigate("/confirmation", {
         state: {
@@ -98,7 +98,7 @@ const Register = () => {
   return (
     <div className="form-container">
       <img
-        src="https://www.dermaessentia.com/cdn/shop/articles/Hair-Spa-for-Men.jpg?v=1694420768"
+        src={DEFAULT_VALUES.IMAGE_URL}
         alt="Spa"
         className="form-image"
       />
