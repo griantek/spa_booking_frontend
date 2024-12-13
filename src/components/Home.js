@@ -17,7 +17,7 @@ const Home = () => {
       setError("Phone number is required.");
       return;
     }
-    if (!/^\d{12}$/.test(phone)) {
+    if (!/^\d{10}$/.test(phone)) {
       setError("Please enter a valid 10-digit phone number");
       return;
     }
@@ -74,7 +74,7 @@ const Home = () => {
           placeholder="Enter your phone number"
           value={phone}
           onChange={handleInputChange}
-          maxLength={12}
+          maxLength={10}
         />
         {error && <span className="error-text">{error}</span>}
       </div>
