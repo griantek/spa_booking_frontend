@@ -21,25 +21,26 @@ const Home = () => {
       setError("Please enter a valid 10-digit phone number");
       return;
     }
-    phone="91"+phone
     setError(""); // Clear any existing error
-
+  
+    const formattedPhone = `91${phone}`; // Add +91 prefix
+  
     try {
-      const response = await axios.get(`${API_URLS.BACKEND_URL}/check-phone/${phone}`);
+      const response = await axios.get(`${API_URLS.BACKEND_URL}/check-phone/${formattedPhone}`);
       if (response.data.exists) {
-        // Phone number exists, navigate to Modify page and pass the phone number
+        // Phone number exists, navigate to Modify page and pass the formatted phone number
         toast.success("Phone number found! Redirecting to Modify page...", {
           position: "top-center",
           autoClose: 2000,
         });
-        setTimeout(() => navigate("/modify", { state: { phone } }), 2000);
+        setTimeout(() => navigate("/modify", { state: { phone: formattedPhone } }), 2000);
       } else {
-        // Phone number does not exist, navigate to Register page and pass the phone number
+        // Phone number does not exist, navigate to Register page and pass the formatted phone number
         toast.info("Phone number not found! Redirecting to Register page...", {
           position: "top-center",
           autoClose: 2000,
         });
-        setTimeout(() => navigate("/register", { state: { phone } }), 2000);
+        setTimeout(() => navigate("/register", { state: { phone: formattedPhone } }), 2000);
       }
     } catch (error) {
       console.error("Error checking phone:", error);
@@ -48,6 +49,7 @@ const Home = () => {
       });
     }
   };
+  
 
   const handleInputChange = (e) => {
     const value = e.target.value;
