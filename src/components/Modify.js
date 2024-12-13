@@ -213,9 +213,14 @@ function Modify() {
           onChange={handleChange}
         >
           <option value="">Select Service</option>
-          <option value="Massage">Massage</option>
-          <option value="Facial">Facial</option>
-          <option value="Manicure">Manicure</option>
+          <option value="Facial Treatment">Facial Treatment</option>
+          <option value="Massage Therapy">Massage Therapy</option>
+          <option value="Manicure & Pedicure">Manicure & Pedicure</option>
+          <option value="Hair Removal">Hair Removal</option>
+          <option value="Acne Treatment">Acne Treatment</option>
+          <option value="Body Scrub">Body Scrub</option>
+          <option value="Hot Stone Massage">Hot Stone Massage</option>
+          <option value="Nail Art & Design">Nail Art & Design</option>
         </select>
         {errors.service && <span className="error-text">{errors.service}</span>}
 
