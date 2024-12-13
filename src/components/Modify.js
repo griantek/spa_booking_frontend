@@ -3,6 +3,7 @@ import './Modify.css';
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
+import { API_URLS, DEFAULT_VALUES } from "../utils/constants";
 
 function Modify() {
   const navigate = useNavigate();
@@ -61,7 +62,7 @@ function Modify() {
   useEffect(() => {
     const fetchAppointmentDetails = async (phone) => {
       try {
-        const response = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/appointment/${phone}`);
+        const response = await axios.get(`${API_URLS.BACKEND_URL}/appointment/${phone}`);
         if (response.status === 200) {
           const { name, service, time, date, notes } = response.data;
           setFormData((prevData) => ({
@@ -82,7 +83,7 @@ function Modify() {
   
     const verifyTokenAndFetchData = async () => {
       try {
-        const response = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/validate-token?token=${token}`);
+        const response = await axios.get(`${API_URLS.BACKEND_URL}/validate-token?token=${token}`);
         if (response.status === 200) {
           const { phone } = response.data;
           if (phone) {
@@ -128,7 +129,7 @@ function Modify() {
     }
   
     try {
-      await axios.post("https://spa-booking-backend-kcqy.onrender.com/modify-appointment", {
+      await axios.post(`${API_URLS.BACKEND_URL}/modify-appointment`, {
         phone: formData.phone,
         name: formData.name,
         service: formData.service,
@@ -155,7 +156,7 @@ function Modify() {
     e.preventDefault();
   
     try {
-      await axios.post("https://spa-booking-backend-kcqy.onrender.com/cancel-appointment", { phone: formData.phone });
+      await axios.post(`${API_URLS.BACKEND_URL}/cancel-appointment`, { phone: formData.phone });
   
       navigate("/confirmation", {
         state: {
@@ -179,7 +180,7 @@ function Modify() {
   return (
     <div className="form-container">
       <img
-        src="https://www.dermaessentia.com/cdn/shop/articles/Hair-Spa-for-Men.jpg?v=1694420768"
+        src={DEFAULT_VALUES.IMAGE_URL}
         alt="Spa"
         className="form-image"
       />

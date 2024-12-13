@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/global.css";
-
+import { API_URLS, DEFAULT_VALUES } from "../utils/constants";
 const ConfirmationPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const ConfirmationPage = () => {
     if (phone) {
       const fetchDetails = async () => {
         try {
-          const response = await fetch(`https://spa-booking-backend-kcqy.onrender.com/appointment/${phone}`);
+          const response = await fetch(`${API_URLS.BACKEND_URL}/appointment/${phone}`);
           if (response.ok) {
             const data = await response.json();
             setAppointmentDetails(data);
@@ -52,7 +52,7 @@ const ConfirmationPage = () => {
   return (
     <div className="form-container">
       <img
-        src="https://www.dermaessentia.com/cdn/shop/articles/Hair-Spa-for-Men.jpg?v=1694420768"
+        src={DEFAULT_VALUES.IMAGE_URL}
         alt="Spa"
         className="form-image"
       />
