@@ -126,3 +126,11 @@ textarea {
   text-align: center;
   font-size: 16px;
 }
+
+
+.horizontal-placement{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 5px;
+}

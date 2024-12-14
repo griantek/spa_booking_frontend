@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "../styles/global.css";
 import { API_URLS, DEFAULT_VALUES } from "../utils/constants";
+
 const ConfirmationPage = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const { message, note, phone } = location.state || {
     message: "Operation successful!",
     note: "You can perform more actions here.",
@@ -32,12 +32,12 @@ const ConfirmationPage = () => {
     }
   }, [phone]);
 
-  const handleGoBack = () => {
-    navigate("/");
-  };
+  const handleCloseApp = () => {
+    // Try closing the current tab or app
+    window.close();
 
-  const handlePrint = () => {
-    window.print();
+    // Show fallback message if the tab cannot be closed
+    // alert("Unable to close the app. Please manually navigate back.");
   };
 
   const convertTo12HourFormat = (time) => {
@@ -47,8 +47,6 @@ const ConfirmationPage = () => {
     return `${adjustedHours}:${minutes} ${period}`;
   };
 
-
-
   return (
     <div className="form-container">
       <img
@@ -57,7 +55,6 @@ const ConfirmationPage = () => {
         className="form-image"
       />
       <h1>{message}</h1>
-      
 
       {appointmentDetails ? (
         <div className="appointment-details">
@@ -76,14 +73,9 @@ const ConfirmationPage = () => {
       )}
 
       <div className="button-container">
-        <button className="form-button" onClick={handleGoBack}>
-          Go to Home
+        <button className="form-button" onClick={handleCloseApp}>
+        Return to WhatsApp
         </button>
-
-        {appointmentDetails ?(<button className="form-button" onClick={handlePrint}>
-          Print Confirmation
-        </button>):("")}
-        
       </div>
       <p className="confirmation-text">{note}</p>
     </div>
