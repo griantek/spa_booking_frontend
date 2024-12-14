@@ -23,7 +23,7 @@ function Modify() {
   const [message, setMessage] = useState(""); // State for success messages
   const [errors, setErrors] = useState({}); // State for field-specific errors
   const [loading, setLoading] = useState(true);
-  //useEffect for if Modify directly from Web Aplication
+  
   useEffect(() => {
     const phone = location.state?.phone;
 
@@ -185,10 +185,14 @@ function Modify() {
     }
   };
 
-  // Get today's date in YYYY-MM-DD format
   const getTodayDate = () => {
     const today = new Date();
-    return today.toISOString().split("T")[0]; // Format date as YYYY-MM-DD
+    return today.toISOString().split("T")[0];
+  };
+
+  const getCurrentTime = () => {
+    const now = new Date();
+    return now.toTimeString().slice(0, 5);
   };
 
   return (
@@ -237,23 +241,24 @@ function Modify() {
         <div className="horizontal-placement">
           <input
             className="form-field"
-            type="time"
-            name="time"
-            value={formData.time}
-            onChange={handleChange}
-          />
-          {errors.time && <span className="error-text">{errors.time}</span>}
-
-          <input
-            className="form-field"
             type="date"
             name="date"
             value={formData.date}
             onChange={handleChange}
             min={getTodayDate()}
           />
-
           {errors.date && <span className="error-text">{errors.date}</span>}
+
+          <input
+            className="form-field"
+            type="time"
+            name="time"
+            value={formData.time}
+            onChange={handleChange}
+            disabled={!formData.date}
+            min={formData.date === getTodayDate() ? getCurrentTime() : null}
+          />
+          {errors.time && <span className="error-text">{errors.time}</span>}
         </div>
 
         <textarea
