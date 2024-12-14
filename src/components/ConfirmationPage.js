@@ -72,12 +72,12 @@ const ConfirmationPage = () => {
         ""
       )}
 
-      <div className="button-container">
+      {/* <div className="button-container">
         <button className="form-button" onClick={handleCloseApp}>
         Return to WhatsApp
         </button>
       </div>
-      <p className="confirmation-text">{note}</p>
+      <p className="confirmation-text">{note}</p> */}
     </div>
   );
 };

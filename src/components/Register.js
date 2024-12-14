@@ -12,7 +12,7 @@ const Register = () => {
 
   const [formData, setFormData] = useState({
     name: "",
-    phone:"",
+    phone: "",
     service: "",
     time: "",
     date: "",
@@ -35,8 +35,13 @@ const Register = () => {
     const validateToken = async () => {
       try {
         if (token) {
-          const response = await axios.get(`${API_URLS.BACKEND_URL}/validate-token?token=${token}`);
-          setFormData((prevData) => ({ ...prevData, phone: response.data.phone }));
+          const response = await axios.get(
+            `${API_URLS.BACKEND_URL}/validate-token?token=${token}`
+          );
+          setFormData((prevData) => ({
+            ...prevData,
+            phone: response.data.phone,
+          }));
         }
       } catch (error) {
         console.error("Error validating token:", error);
@@ -79,7 +84,7 @@ const Register = () => {
 
       navigate("/confirmation", {
         state: {
-          phone:formData.phone,
+          phone: formData.phone,
           message: "Your Appointment is Confirmed!",
           note: "Thank you for booking your appointment with us. We look forward to serving you!",
         },
@@ -95,13 +100,14 @@ const Register = () => {
     return today.toISOString().split("T")[0];
   };
 
+  const getCurrentTime = () => {
+    const now = new Date();
+    return now.toTimeString().slice(0, 5);
+  };
+
   return (
     <div className="form-container">
-      <img
-        src={DEFAULT_VALUES.IMAGE_URL}
-        alt="Spa"
-        className="form-image"
-      />
+      <img src={DEFAULT_VALUES.IMAGE_URL} alt="Spa" className="form-image" />
       <h1>Register for a Spa Appointment</h1>
 
       <form onSubmit={handleSubmit}>
@@ -140,28 +146,31 @@ const Register = () => {
           <option value="Body Scrub">Body Scrub</option>
           <option value="Hot Stone Massage">Hot Stone Massage</option>
           <option value="Nail Art & Design">Nail Art & Design</option>
-      
         </select>
         {errors.service && <span className="error-text">{errors.service}</span>}
 
-        <input
-          className="form-field"
-          type="time"
-          name="time"
-          value={formData.time}
-          onChange={handleChange}
-        />
-        {errors.time && <span className="error-text">{errors.time}</span>}
+        <div className="horizontal-placement">
+          <input
+            className="form-field"
+            type="date"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+            min={getTodayDate()}
+          />
+          {errors.date && <span className="error-text">{errors.date}</span>}
 
-        <input
-          className="form-field"
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-          min={getTodayDate()}
-        />
-        {errors.date && <span className="error-text">{errors.date}</span>}
+          <input
+            className="form-field"
+            type="time"
+            name="time"
+            value={formData.time}
+            onChange={handleChange}
+            disabled={!formData.date}
+            min={formData.date === getTodayDate() ? getCurrentTime() : null}
+          />
+          {errors.time && <span className="error-text">{errors.time}</span>}
+        </div>
 
         <textarea
           className="form-field"
@@ -176,9 +185,7 @@ const Register = () => {
         </button>
       </form>
 
-      {errors.submit && (
-        <div className="error-message">{errors.submit}</div>
-      )}
+      {errors.submit && <div className="error-message">{errors.submit}</div>}
     </div>
   );
 };
