@@ -8,12 +8,11 @@ const Register = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const phone = searchParams.get("phone");
-  const name = searchParams.get("name"); 
+  const token = searchParams.get("token"); 
 
   const [formData, setFormData] = useState({
-    name: name || "", // Prefill name if available
-    phone: phone || "", // Prefill phone if available
+    name: "", // Prefill name if available
+    phone: "",
     service: "",
     time: "",
     date: "",
@@ -30,6 +29,31 @@ const Register = () => {
       }));
     }
   }, [location]);
+
+  useEffect(() => {
+    // Validate token and prefill form data
+    if (token) {
+      const fetchTokenData = async () => {
+        try {
+          // Send token to backend for validation
+          const response = await axios.get(`${API_URLS.BACKEND_URL}/validate-token?token=${token}`);
+          const { phone, name } = response.data; // Extract phone and name from token
+          
+          // Prefill form data with phone and name
+          setFormData((prevData) => ({
+            ...prevData,
+            phone: phone,
+            name: name,
+          }));
+        } catch (error) {
+          console.error("Error validating token:", error);
+          setErrors({ token: "Invalid or expired token" });
+        }
+      };
+
+      fetchTokenData();
+    }
+  }, [token]);
 
   const validateFields = () => {
     const newErrors = {};

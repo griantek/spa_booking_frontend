@@ -9,12 +9,12 @@ function Modify() {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const phone = searchParams.get("phone"); // Get phone from query params
-  const name = searchParams.get("name"); // Get name from query params
+  // Extract token from the URL
+  const token = new URLSearchParams(window.location.search).get("token");
 
   const [formData, setFormData] = useState({
-    name: name || "", // Prefill name if available
-    phone: phone || "", // Prefill phone if available
+    name:"", // Prefill name if available
+    phone:"", // Prefill phone if available
     service: "",
     time: "",
     date: "",
@@ -23,6 +23,7 @@ function Modify() {
 
   const [message, setMessage] = useState(""); // State for success messages
   const [errors, setErrors] = useState({}); // State for field-specific errors
+  const [loading, setLoading] = useState(true);
   //useEffect for if Modify directly from Web Aplication
   useEffect(() => {
     const phone = location.state?.phone;
@@ -65,29 +66,43 @@ function Modify() {
   //useEffect for if Modification reqeust from whatsapp bot
 
   useEffect(() => {
-    const fetchAppointmentDetails = async () => {
-      try {
-        const response = await axios.get(`${API_URLS.BACKEND_URL}/appointment/${phone}`);
-        if (response.status === 200) {
-          const { name, service, time, date, notes } = response.data;
+    if (token) {
+      const fetchData = async () => {
+        try {
+          setLoading(true);
+
+          // Validate token
+          const tokenResponse = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/validate-token?token=${token}`);
+          const { phone, name } = tokenResponse.data; // Extract phone and name from response
+
           setFormData((prevData) => ({
             ...prevData,
-            name: name || prevData.name,
-            service,
-            time,
-            date,
-            notes,
+            phone,
+            name, // Prefill phone and name
           }));
-        } else {
-          console.error("Unexpected response status:", response.status);
-        }
-      } catch (error) {
-        console.error("Error fetching appointment data:", error.response?.data || error.message);
-      }
-    };
 
-    if (phone) fetchAppointmentDetails();
-  }, [phone]);
+          // Fetch appointment details
+          const appointmentResponse = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/appointment/${phone}`);
+          setFormData((prevData) => ({
+            ...prevData,
+            service: appointmentResponse.data.service || "",
+            time: appointmentResponse.data.time || "",
+            date: appointmentResponse.data.date || "",
+            notes: appointmentResponse.data.notes || "",
+          }));
+        } catch (err) {
+          setError("Failed to fetch data.");
+          console.error(err);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchData();
+    }
+  }, [token]);
+
+  if (loading) return <p>Loading...</p>;
 
   const validateFields = () => {
     const newErrors = {};
