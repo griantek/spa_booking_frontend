@@ -24,7 +24,7 @@ function Modify() {
   const [message, setMessage] = useState(""); // State for success messages
   const [errors, setErrors] = useState({}); // State for field-specific errors
   const [loading, setLoading] = useState(true);
-  const [chatNo, setChatNo] = useState(true);
+  const [chatNo, setChatNo] = useState();
   //useEffect for if Modify directly from Web Aplication
   useEffect(() => {
     const phone = location.state?.phone;
@@ -165,6 +165,7 @@ function Modify() {
         state: {
           message: "Your appointment has been cancelled successfully!",
           note: "You can book another appointment if needed.",
+          chatbotNo:chatNo
         },
       });
     } catch (error) {
