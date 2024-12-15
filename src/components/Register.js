@@ -20,6 +20,7 @@ const Register = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (location.state?.phone) {
@@ -54,7 +55,8 @@ const Register = () => {
       fetchTokenData();
     }
   }, [token]);
-
+ 
+  if (loading) return <div>Loading...</div>;
   const validateFields = () => {
     const newErrors = {};
     if (!formData.name) newErrors.name = "Name is required.";
