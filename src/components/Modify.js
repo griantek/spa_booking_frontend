@@ -9,11 +9,12 @@ function Modify() {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const token = searchParams.get("token");
+  const phone = searchParams.get("phone"); // Get phone from query params
+  const name = searchParams.get("name"); // Get name from query params
 
   const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
+    name: name || "", // Prefill name if available
+    phone: phone || "", // Prefill phone if available
     service: "",
     time: "",
     date: "",
@@ -22,8 +23,7 @@ function Modify() {
 
   const [message, setMessage] = useState(""); // State for success messages
   const [errors, setErrors] = useState({}); // State for field-specific errors
-  const [loading, setLoading] = useState(true);
-  
+  //useEffect for if Modify directly from Web Aplication
   useEffect(() => {
     const phone = location.state?.phone;
 
@@ -65,59 +65,29 @@ function Modify() {
   //useEffect for if Modification reqeust from whatsapp bot
 
   useEffect(() => {
-    const fetchAppointmentDetails = async (phone) => {
+    const fetchAppointmentDetails = async () => {
       try {
-        const response = await axios.get(
-          `${API_URLS.BACKEND_URL}/appointment/${phone}`
-        );
+        const response = await axios.get(`${API_URLS.BACKEND_URL}/appointment/${phone}`);
         if (response.status === 200) {
           const { name, service, time, date, notes } = response.data;
           setFormData((prevData) => ({
             ...prevData,
-            name: name || "",
-            service: service || "",
-            time: time || "",
-            date: date || "",
-            notes: notes || "",
+            name: name || prevData.name,
+            service,
+            time,
+            date,
+            notes,
           }));
         } else {
           console.error("Unexpected response status:", response.status);
         }
       } catch (error) {
-        console.error(
-          "Error fetching appointment data:",
-          error.response?.data || error.message
-        );
+        console.error("Error fetching appointment data:", error.response?.data || error.message);
       }
     };
 
-    const verifyTokenAndFetchData = async () => {
-      try {
-        const response = await axios.get(
-          `${API_URLS.BACKEND_URL}/validate-token?token=${token}`
-        );
-        if (response.status === 200) {
-          const { phone } = response.data;
-          if (phone) {
-            setFormData((prevData) => ({
-              ...prevData,
-              phone,
-            }));
-            await fetchAppointmentDetails(phone); // Fetch appointment details
-          }
-        }
-      } catch (error) {
-        console.error(
-          "Error verifying token or fetching appointment data:",
-          error.response?.data || error.message
-        );
-      }
-    };
-
-    if (token) {
-      verifyTokenAndFetchData();
-    }
-  }, [token]);
+    if (phone) fetchAppointmentDetails();
+  }, [phone]);
 
   const validateFields = () => {
     const newErrors = {};
