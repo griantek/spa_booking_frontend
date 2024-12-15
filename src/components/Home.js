@@ -61,7 +61,7 @@ const Home = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="formcontainer">
       <img
         src={DEFAULT_VALUES.IMAGE_URL}
         alt="Spa"
