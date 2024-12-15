@@ -91,7 +91,7 @@ function Modify() {
             notes: appointmentResponse.data.notes || "",
           }));
         } catch (err) {
-          setError("Failed to fetch data.");
+          setErrors("Failed to fetch data.");
           console.error(err);
         } finally {
           setLoading(false);
