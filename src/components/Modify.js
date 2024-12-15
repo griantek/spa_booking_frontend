@@ -24,6 +24,7 @@ function Modify() {
   const [message, setMessage] = useState(""); // State for success messages
   const [errors, setErrors] = useState({}); // State for field-specific errors
   const [loading, setLoading] = useState(true);
+  const [chatNo, setChatNo] = useState(true);
   //useEffect for if Modify directly from Web Aplication
   useEffect(() => {
     const phone = location.state?.phone;
@@ -73,7 +74,8 @@ function Modify() {
 
           // Validate token
           const tokenResponse = await axios.get(`https://spa-booking-backend-kcqy.onrender.com/validate-token?token=${token}`);
-          const { phone, name } = tokenResponse.data; // Extract phone and name from response
+          const { phone, name, chat } = tokenResponse.data; // Extract phone and name from response
+          setChatNo(chat);
 
           setFormData((prevData) => ({
             ...prevData,
@@ -142,6 +144,7 @@ function Modify() {
           phone: formData.phone,
           message: "Your appointment has been updated successfully!",
           note: "Feel free to explore or book another appointment.",
+          chatbotNo:chatNo
         },
       });
     } catch (error) {

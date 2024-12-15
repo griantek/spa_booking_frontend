@@ -5,10 +5,11 @@ import { API_URLS, DEFAULT_VALUES } from "../utils/constants";
 
 const ConfirmationPage = () => {
   const location = useLocation();
-  const { message, note, phone } = location.state || {
+  const { message, note, phone ,chatbotNo} = location.state || {
     message: "Operation successful!",
     note: "You can perform more actions here.",
     phone: null,
+    chatbotNo :""
   };
 
   const [appointmentDetails, setAppointmentDetails] = useState(null);
@@ -35,7 +36,7 @@ const ConfirmationPage = () => {
   }, [phone]);
 
   const handleCloseApp = () => {
-    window.location.href = "https://wa.me/"; // This will open WhatsApp
+    window.location.href = `https://wa.me/${chatbotNo}`; // This will open WhatsApp
   };
 
   const convertTo12HourFormat = (time) => {
