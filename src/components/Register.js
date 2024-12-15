@@ -10,10 +10,12 @@ const Register = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token"); 
 
+  const [chatNo, setChatNo] = useState();
+
   const [formData, setFormData] = useState({
     name: "", // Prefill name if available
     phone: "",
-    service: "",
+    service: "", 
     time: "",
     date: "",
     notes: "",
@@ -37,7 +39,8 @@ const Register = () => {
         try {
           // Send token to backend for validation
           const response = await axios.get(`${API_URLS.BACKEND_URL}/validate-token?token=${token}`);
-          const { phone, name } = response.data; // Extract phone and name from token
+          const { phone, name, chat } = response.data; // Extract phone and name from response
+          setChatNo(chat);
           
           // Prefill form data with phone and name
           setFormData((prevData) => ({
@@ -87,6 +90,7 @@ const Register = () => {
           phone: formData.phone,
           message: "Your Appointment is Confirmed!",
           note: "Thank you for booking your appointment with us. We look forward to serving you!",
+          chatbotNo:chatNo
         },
       });
     } catch (error) {
