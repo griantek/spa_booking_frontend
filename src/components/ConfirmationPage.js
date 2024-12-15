@@ -36,7 +36,7 @@ const ConfirmationPage = () => {
   }, [phone]);
 
   const handleCloseApp = () => {
-    window.location.href = `https://wa.me/${chatbotNo}`; // This will open WhatsApp
+    window.location.href = `whatsapp://`; // This will open WhatsApp
   };
 
   const convertTo12HourFormat = (time) => {
