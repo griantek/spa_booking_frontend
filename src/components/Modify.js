@@ -102,7 +102,7 @@ function Modify() {
     }
   }, [token]);
 
-  if (loading) return <p>Loading...</p>;
+  //if (loading) return <p>Loading...</p>;
 
   const validateFields = () => {
     const newErrors = {};
