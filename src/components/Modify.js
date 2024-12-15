@@ -166,9 +166,9 @@ function Modify() {
   };
 
   return (
-    <div className="form-container">
+    <div className="formcontainer ">
       <img src={DEFAULT_VALUES.IMAGE_URL} alt="Spa" className="form-image" />
-      <h1>Modify Your Appointment</h1>
+      <h1 className="heading">Modify Your Appointment</h1>
 
       <form onSubmit={handleUpdate}>
         <input

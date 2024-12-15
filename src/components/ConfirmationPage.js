@@ -17,7 +17,9 @@ const ConfirmationPage = () => {
     if (phone) {
       const fetchDetails = async () => {
         try {
-          const response = await fetch(`${API_URLS.BACKEND_URL}/appointment/${phone}`);
+          const response = await fetch(
+            `${API_URLS.BACKEND_URL}/appointment/${phone}`
+          );
           if (response.ok) {
             const data = await response.json();
             setAppointmentDetails(data);
@@ -33,11 +35,7 @@ const ConfirmationPage = () => {
   }, [phone]);
 
   const handleCloseApp = () => {
-    // Try closing the current tab or app
-    window.close();
-
-    // Show fallback message if the tab cannot be closed
-    // alert("Unable to close the app. Please manually navigate back.");
+    window.location.href = "https://wa.me/"; // This will open WhatsApp
   };
 
   const convertTo12HourFormat = (time) => {
@@ -49,35 +47,44 @@ const ConfirmationPage = () => {
 
   return (
     <div className="form-container">
-      <img
-        src={DEFAULT_VALUES.IMAGE_URL}
-        alt="Spa"
-        className="form-image"
-      />
+      <img src={DEFAULT_VALUES.IMAGE_URL} alt="Spa" className="form-image" />
       <h1>{message}</h1>
 
       {appointmentDetails ? (
         <div className="appointment-details">
           <h2>Appointment Details</h2>
-          <p><strong>Name:</strong> {appointmentDetails.name}</p>
-          <p><strong>Phone:</strong> {appointmentDetails.phone}</p>
-          <p><strong>Service:</strong> {appointmentDetails.service}</p>
-          <p><strong>Date:</strong> {appointmentDetails.date}</p>
-          <p><strong>Time:</strong> {convertTo12HourFormat(appointmentDetails.time)}</p>
+          <p>
+            <strong>Name:</strong> {appointmentDetails.name}
+          </p>
+          <p>
+            <strong>Phone:</strong> {appointmentDetails.phone}
+          </p>
+          <p>
+            <strong>Service:</strong> {appointmentDetails.service}
+          </p>
+          <p>
+            <strong>Date:</strong> {appointmentDetails.date}
+          </p>
+          <p>
+            <strong>Time:</strong>{" "}
+            {convertTo12HourFormat(appointmentDetails.time)}
+          </p>
           {appointmentDetails.notes && (
-            <p><strong>Notes:</strong> {appointmentDetails.notes}</p>
+            <p>
+              <strong>Notes:</strong> {appointmentDetails.notes}
+            </p>
           )}
         </div>
       ) : (
         ""
       )}
 
-      {/* <div className="button-container">
+      <div className="button-container">
         <button className="form-button" onClick={handleCloseApp}>
-        Return to WhatsApp
+          Return to WhatsApp
         </button>
       </div>
-      <p className="confirmation-text">{note}</p> */}
+      <p className="confirmation-text">{note}</p>
     </div>
   );
 };

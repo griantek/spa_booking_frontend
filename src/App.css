@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 95vh;
-  background-color: #f0f4f8;
+  background-color: white;
   padding: 5px;
 }

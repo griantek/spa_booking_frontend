@@ -82,7 +82,7 @@ const Register = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="formcontainer">
       <img src={DEFAULT_VALUES.IMAGE_URL} alt="Spa" className="form-image" />
       <h1>Register for a Spa Appointment</h1>
 
