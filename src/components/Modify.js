@@ -214,10 +214,8 @@ function Modify() {
         <input
           className="form-field"
           type="text"
-          name="name"
           value={formData.name}
           onChange={handleChange}
-          placeholder="Name"
         />
         {errors.name && <span className="error-text">{errors.name}</span>}
 
@@ -273,7 +271,6 @@ function Modify() {
         <textarea
           className="form-field"
           name="notes"
-          placeholder="Additional Notes"
           value={formData.notes}
           onChange={handleChange}
         />
