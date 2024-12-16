@@ -8,14 +8,14 @@ const Register = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const token = searchParams.get("token"); 
+  const token = searchParams.get("token");
 
   const [chatNo, setChatNo] = useState();
 
   const [formData, setFormData] = useState({
     name: "", // Prefill name if available
     phone: "",
-    service: "", 
+    service: "",
     time: "",
     date: "",
     notes: "",
@@ -38,10 +38,12 @@ const Register = () => {
       const fetchTokenData = async () => {
         try {
           // Send token to backend for validation
-          const response = await axios.get(`${API_URLS.BACKEND_URL}/validate-token?token=${token}`);
+          const response = await axios.get(
+            `${API_URLS.BACKEND_URL}/validate-token?token=${token}`
+          );
           const { phone, name, chat } = response.data; // Extract phone and name from response
           setChatNo(chat);
-          
+
           // Prefill form data with phone and name
           setFormData((prevData) => ({
             ...prevData,
@@ -57,14 +59,27 @@ const Register = () => {
       fetchTokenData();
     }
   }, [token]);
- 
+
   const validateFields = () => {
     const newErrors = {};
+
     if (!formData.name) newErrors.name = "Name is required.";
-    if (!formData.phone) newErrors.phone = "Phone number is required.";
-    if (!formData.service) newErrors.service = "Please select a service.";
+    if (!formData.service) newErrors.service = "Service is required.";
     if (!formData.time) newErrors.time = "Time is required.";
     if (!formData.date) newErrors.date = "Date is required.";
+
+    // Time validation
+    const selectedDateTime = new Date(`${formData.date}T${formData.time}`);
+    const currentDateTime = new Date();
+
+    if (formData.date === getTodayDate()) {
+      // Allow booking if time is exactly the same or up to 1 minute in the past
+      const timeDifference = (selectedDateTime - currentDateTime) / (1000 * 60);
+      if (timeDifference < -1) {
+        newErrors.time = "Selected time has already passed.";
+      }
+    }
+
     return newErrors;
   };
 
@@ -90,7 +105,7 @@ const Register = () => {
           phone: formData.phone,
           message: "Your Appointment is Confirmed!",
           note: "Thank you for booking your appointment with us. We look forward to serving you!",
-          chatbotNo:chatNo
+          chatbotNo: chatNo,
         },
       });
     } catch (error) {
@@ -119,7 +134,6 @@ const Register = () => {
           className="form-field"
           type="text"
           name="name"
-          placeholder="Your Name"
           value={formData.name}
           onChange={handleChange}
         />
@@ -129,7 +143,6 @@ const Register = () => {
           className="form-field"
           type="text"
           name="phone"
-          placeholder="Your Phone"
           value={formData.phone}
           readOnly
         />

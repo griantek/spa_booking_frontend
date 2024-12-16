@@ -116,12 +116,10 @@ function Modify() {
     if (!formData.time) newErrors.time = "Time is required.";
     if (!formData.date) newErrors.date = "Date is required.";
   
-    // Time validation
     const selectedDateTime = new Date(`${formData.date}T${formData.time}`);
     const currentDateTime = new Date();
   
     if (formData.date === getTodayDate()) {
-      // Allow booking if time is exactly the same or up to 1 minute in the past
       const timeDifference = (selectedDateTime - currentDateTime) / (1000 * 60);
       if (timeDifference < -1) {
         newErrors.time = "Selected time has already passed.";
@@ -200,93 +198,90 @@ function Modify() {
     return <div>Loading...</div>;
   }
 
-  return (
-    <div className="formcontainer">
-      <img src={DEFAULT_VALUES.IMAGE_URL} alt="Spa" className="form-image" />
-      <h1 className="heading">Modify Your Appointment</h1>
+return (
+  <div className="formcontainer">
+    <img src={DEFAULT_VALUES.IMAGE_URL} alt="Spa" className="form-image" />
+    <h1 className="heading">Modify Your Appointment</h1>
 
-      {/* Rest of the component remains the same */}
-      <form onSubmit={handleUpdate}>
-        {/* Form fields */}
+    <form onSubmit={handleUpdate}>
+      <input
+        className="form-field"
+        type="text"
+        name="name"
+        value={formData.name}
+        onChange={handleChange}
+      />
+      {errors.name && <span className="error-text">{errors.name}</span>}
+
+      <input
+        className="form-field"
+        type="text"
+        name="phone"
+        value={formData.phone}
+        readOnly
+      />
+
+      <select
+        className="form-field"
+        name="service"
+        value={formData.service}
+        onChange={handleChange}
+      >
+        <option value="">Select Service</option>
+        <option value="Facial Treatment">Facial Treatment</option>
+        <option value="Massage Therapy">Massage Therapy</option>
+        <option value="Manicure & Pedicure">Manicure & Pedicure</option>
+        <option value="Hair Removal">Hair Removal</option>
+        <option value="Acne Treatment">Acne Treatment</option>
+        <option value="Body Scrub">Body Scrub</option>
+        <option value="Hot Stone Massage">Hot Stone Massage</option>
+        <option value="Nail Art & Design">Nail Art & Design</option>
+      </select>
+      {errors.service && <span className="error-text">{errors.service}</span>}
+
+      <div className="horizontal-placement">
         <input
           className="form-field"
-          type="text"
-          name="name"
-          value={formData.name}
+          type="date"
+          name="date"
+          value={formData.date}
           onChange={handleChange}
-          placeholder="Name"
+          min={getTodayDate()}
         />
-        {errors.name && <span className="error-text">{errors.name}</span>}
+        {errors.date && <span className="error-text">{errors.date}</span>}
 
         <input
           className="form-field"
-          type="text"
-          name="phone"
-          value={formData.phone}
-          readOnly
-        />
-
-        <select
-          className="form-field"
-          name="service"
-          value={formData.service}
+          type="time"
+          name="time"
+          value={formData.time}
           onChange={handleChange}
-        >
-          <option value="">Select Service</option>
-          <option value="Facial Treatment">Facial Treatment</option>
-          <option value="Massage Therapy">Massage Therapy</option>
-          <option value="Manicure & Pedicure">Manicure & Pedicure</option>
-          <option value="Hair Removal">Hair Removal</option>
-          <option value="Acne Treatment">Acne Treatment</option>
-          <option value="Body Scrub">Body Scrub</option>
-          <option value="Hot Stone Massage">Hot Stone Massage</option>
-          <option value="Nail Art & Design">Nail Art & Design</option>
-        </select>
-        {errors.service && <span className="error-text">{errors.service}</span>}
-
-        <div className="horizontal-placement">
-          <input
-            className="form-field"
-            type="date"
-            name="date"
-            value={formData.date}
-            onChange={handleChange}
-            min={getTodayDate()}
-          />
-          {errors.date && <span className="error-text">{errors.date}</span>}
-
-          <input
-            className="form-field"
-            type="time"
-            name="time"
-            value={formData.time}
-            onChange={handleChange}
-            disabled={!formData.date}
-            min={formData.date === getTodayDate() ? getCurrentTime() : null}
-          />
-          {errors.time && <span className="error-text">{errors.time}</span>}
-        </div>
-
-        <textarea
-          className="form-field"
-          name="notes"
-          placeholder="Additional Notes"
-          value={formData.notes}
-          onChange={handleChange}
+          disabled={!formData.date}
+          min={formData.date === getTodayDate() ? getCurrentTime() : null}
         />
+        {errors.time && <span className="error-text">{errors.time}</span>}
+      </div>
 
-        <button className="form-button update-button" type="submit">
-          Update
-        </button>
-      </form>
+      <textarea
+        className="form-field"
+        name="notes"
+        placeholder="Additional Notes"
+        value={formData.notes}
+        onChange={handleChange}
+      />
 
-      <button className="form-button cancel-button" onClick={handleCancel}>
-        Cancel Appointment
+      <button className="form-button update-button" type="submit">
+        Update
       </button>
+    </form>
 
-      {message && <div className="status-message">{message}</div>}
-    </div>
-  );
+    <button className="form-button cancel-button" onClick={handleCancel}>
+      Cancel Appointment
+    </button>
+
+    {message && <div className="status-message">{message}</div>}
+  </div>
+);
 }
 
 export default Modify;
