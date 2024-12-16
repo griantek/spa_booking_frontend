@@ -101,9 +101,10 @@ function Modify() {
         } catch (err) {
           setErrors({ general: "Failed to fetch data." });
           console.error(err);
-        } finally {
-          setIsLoading(false);
         }
+        //  finally {
+        //   setIsLoading(false);
+        // }
       };
 
       fetchData();
