@@ -22,7 +22,7 @@ function Modify() {
 
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const [chatNo, setChatNo] = useState(true);
 
   useEffect(() => {
@@ -55,22 +55,24 @@ function Modify() {
             "Error fetching appointment data:",
             error.response?.data || error.message
           );
-        } finally {
-          setIsLoading(false);
-        }
+        } 
+        // finally {
+        //   setIsLoading(false);
+        // }
       };
 
       fetchAppointmentData();
-    } else {
-      setIsLoading(false);
-    }
+    } 
+    // else {
+    //   setIsLoading(false);
+    // }
   }, [location.state?.phone]);
 
   useEffect(() => {
     if (token) {
       const fetchData = async () => {
         try {
-          setIsLoading(true);
+          // setIsLoading(true);
 
           const tokenResponse = await axios.get(
             `${API_URLS.BACKEND_URL}/validate-token?token=${token}`
@@ -196,9 +198,9 @@ function Modify() {
   };
 
   // Add loading state rendering
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <div className="formcontainer">
